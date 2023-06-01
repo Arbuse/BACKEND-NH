@@ -30,4 +30,5 @@ public class FirebaseInitialization {
             throw new RuntimeException(e);
         }
     }
+
 }

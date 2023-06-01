@@ -1,4 +1,4 @@
-package com.example.PocektHistory.pocketHistory.entity;
+package com.example.PocektHistory.pocketHistory.user.entity;
 
 
 import lombok.Data;
