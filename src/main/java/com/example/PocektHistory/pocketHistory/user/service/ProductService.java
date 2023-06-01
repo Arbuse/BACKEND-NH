@@ -1,7 +1,7 @@
-package com.example.PocektHistory.pocketHistory.service;
+package com.example.PocektHistory.pocketHistory.user.service;
 
 
-import com.example.PocektHistory.pocketHistory.entity.Product;
+import com.example.PocektHistory.pocketHistory.user.entity.Product;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
@@ -16,10 +16,10 @@ public class ProductService {
 
     private static final String COLLECTION_NAME = "products";
 
-    public String saveProduct(Product product) throws ExecutionException, InterruptedException {
+    public void saveProduct(Product product) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(product.getName()).set(product);
 
-        return collectionApiFuture.get().getUpdateTime().toString();
+        //return collectionApiFuture.get().getUpdateTime().toString();
     }
 }
