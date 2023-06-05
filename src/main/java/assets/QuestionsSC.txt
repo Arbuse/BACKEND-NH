@@ -1,0 +1,5 @@
+Które miasto było stolicą starożytnego Egiptu?;SC;["Aleksandria","Teby","Gizy","Memfis"];"Teby"
+Które imperium rządziło znaczną częścią starożytnego świata w I wieku n.e.?;SC;["Imperium Perskie","Imperium Greckie","Imperium Rzymskie","Imperium Persów"];"Imperium Rzymskie"
+Który przywódca rozpoczął budowę Wielkiego Muru Chińskiego?;SC;["Qin Shi Huang","Cesarz Wu","Cesarz August","Aleksander Wielki"];"Qin Shi Huang"
+Która starożytna cywilizacja stworzyła hieroglify?;SC;["Starożytna Grecja","Starożytny Rzym","Starożytni Egipcjanie","Starożytni Chińczycy"];"Starożytni Egipcjanie"
+Które miasto było centrum starożytnego imperium perskiego?;SC;["Babilon","Perspolis","Sparta","Ateny"];"Perspolis"

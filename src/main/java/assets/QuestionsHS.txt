@@ -1,0 +1,5 @@
+Kiedy wybuchła II wojna światowa?;HS;["1939","1945","1914","1950"];"1939"
+Jakie państwo było odpowiedzialne za atak na Pearl Harbor w 1941 roku?;HS;["Włochy","Japonia","Niemcy","ZSRR"];"Japonia"
+Który przywódca był odpowiedzialny za rewolucję francuską?;HS;["Napoleon Bonaparte","Ludwik XIV","Ludwik XVI","Karol V"];"Ludwik XVI"
+Które miasto było stolicą starożytnego imperium rzymskiego?;HS;["Ateny","Rzym","Aleksandria","Kartagina"];"Rzym"
+Który rok był początkiem I wojny światowej?;HS;["1914","1918","1939","1945"];"1914"
