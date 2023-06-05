@@ -1,0 +1,5 @@
+Który król Polski był koronowany na króla Francji?;HP;["Jan III Sobieski","Kazimierz Wielki","Władysław Jagiełło","Bolesław Chrobry"];"Władysław Jagiełło"
+Które państwo dokonało pierwszego rozbioru Polski w 1772 roku?;HP;["Austria","Prusy","Rosja","Szwecja"];"Prusy"
+Który polski władca wydał pierwszą konstytucję w Europie w 1791 roku?;HP;["Stanisław August Poniatowski","Zygmunt III Waza","Jan Kazimierz","Bolesław Krzywousty"];"Stanisław August Poniatowski"
+Które powstanie miało miejsce w 1863 roku?;HP;["Powstanie wielkopolskie","Powstanie styczniowe","Powstanie kościuszkowskie","Powstanie listopadowe"];"Powstanie styczniowe"
+Który polski król przyjął chrzest w 966 roku?;HP;["Mieszko I","Bolesław Chrobry","Kazimierz Odnowiciel","Władysław Jagiełło"];"Mieszko I"

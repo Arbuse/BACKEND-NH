@@ -1,0 +1,5 @@
+Jak nazywała się najstarsza znana forma ludzkiego przodka?;PA;["Australopitek","Homo habilis","Homo erectus","Homo sapiens"];"Australopitek"
+Która epoka prehistoryczna była charakteryzowana przez używanie narzędzi kamieni?;PA;["Paleolit","Neolit","Mezolit","Epoka brązu"];"Paleolit"
+Gdzie odkryto jaskinię Lascaux; która zawiera słynne prehistoryczne malowidła?;PA;["Francja","Hiszpania","Włochy","Polska"];"Francja"
+Jakie zwierzęta dominowały w epoce lodowcowej?;PA;["Mamuty","Tygrysy szablozębne","Słońce włochate","Wszystkie powyższe"];"Wszystkie powyższe"
+Kiedy rozpoczęła się epoka neolitu?;PA;["Około 10 000 lat temu","Około 1 miliona lat temu","Około 5 000 lat temu","Około 50 000 lat temu"];"Około 10 000 lat temu"

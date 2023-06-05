@@ -1,0 +1,5 @@
+Która rewolucja przemysłowa miała miejsce w XVIII-XIX wieku?;NC;["Rewolucja francuska","Rewolucja amerykańska","Rewolucja przemysłowa","Rewolucja naukowa"];"Rewolucja przemysłowa"
+Który dokument proklamował niepodległość Stanów Zjednoczonych w 1776 roku?;NC;["Konstytucja Stanów Zjednoczonych","Deklaracja Niepodległości","Konstytucja Francji","Deklaracja Praw Człowieka i Obywatela"];"Deklaracja Niepodległości"
+Kto był przywódcą rewolucji bolszewickiej w Rosji w 1917 roku?;NC;["Lenin","Stalin","Trocki","Rasputin"];"Lenin"
+Który polski król wprowadził rządy absolutne w XVIII wieku?;NC;["Zygmunt III Waza","Jan III Sobieski","Stanisław August Poniatowski","August III Sas"];"Stanisław August Poniatowski"
+Które państwo kolonizowało większość Afryki w XIX i XX wieku?;NC;["Francja","Wielka Brytania","Hiszpania","Portugalia"];"Wielka Brytania"

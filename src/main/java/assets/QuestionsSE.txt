@@ -1,0 +1,5 @@
+Która dynastia panowała w średniowiecznej Anglii?;SE;["Plantageneci","Tudorowie","Stuartowie","Windsorowie"];"Plantageneci"
+Jakie wydarzenie zapoczątkowało okres średniowiecza?;SE;["Upadek Cesarstwa Rzymskiego","Odkrycie Ameryki przez Krzysztofa Kolumba","Rewolucja przemysłowa","Upadek Muru Berlińskiego"];"Upadek Cesarstwa Rzymskiego"
+Który król angielski przeprowadził inwazję na Irlandię w XII wieku?;SE;["Wilhelm Zdobywca","Henryk VIII","Ryszard Lwie Serce","Jan bez Ziemi"];"Wilhelm Zdobywca"
+Która bitwa z 1066 roku zakończyła normańską inwazję na Anglię?;SE;["Bitwa pod Hastings","Bitwa pod Azincourt","Bitwa pod Bosworth","Bitwa pod Crécy"];"Bitwa pod Hastings"
+Które państwo było centrum kultury islamskiej w średniowieczu?;SE;["Kalifat Abbasydzki","Kalifat Umajjadzki","Osmańska Turcja","Imperium Perskie"];"Kalifat Abbasydzki"
