@@ -97,8 +97,6 @@ public class UserService {
         update(userEditApi, user);
         Firestore dbFirestore = FirestoreClient.getFirestore();
         dbFirestore.collection(COLLECTION_NAME).document(String.valueOf(userEditApi.getUserId())).set(user);
-
-        //return collectionApiFuture.get().getUpdateTime().toString();
     }
 
     public boolean authorization(String password, String email, Long userId) {
@@ -127,4 +125,43 @@ public class UserService {
         user.setDesc(userEditApi.getDesc());
         return user;
     }
+
+    public void addPoints(Long userId, Integer points) throws ExecutionException, InterruptedException {
+        User user = getUserById(userId);
+        if (user != null) {
+            int currentPoints = user.getPoints();
+            user.setPoints(currentPoints + points);
+            updateUserData(user);
+        }
+    }
+
+    public void addGames(Long userId) throws ExecutionException, InterruptedException {
+        User user = getUserById(userId);
+        if (user != null) {
+            int currentGames = user.getGames();
+            user.setGames(currentGames + 1);
+            updateUserData(user);
+        }
+    }
+
+    private void updateUserData(User user) {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        dbFirestore.collection(COLLECTION_NAME).document(String.valueOf(user.getUserId())).set(user);
+    }
+
+    public void resetLearningMode(Long userId) {
+        User user = getUserById(userId);
+        if (user != null) {
+            user.setHP_learningFactor(0L);
+            user.setHS_learningFactor(0L);
+            user.setNC_learningFactor(0L);
+            user.setPA_learningFactor(0L);
+            user.setSC_learningFactor(0L);
+            user.setSE_learningFactor(0L);
+            updateUserData(user);
+        }
+    }
+
+
+
 }

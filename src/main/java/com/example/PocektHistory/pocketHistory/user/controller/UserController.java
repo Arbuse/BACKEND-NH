@@ -55,6 +55,20 @@ public class UserController {
         return userService.ranking();
     }
 
+    @PostMapping("/addPoints")
+    public void addPoints(@RequestParam Long userId, @RequestParam Integer points) throws ExecutionException, InterruptedException {
+        userService.addPoints(userId, points);
+    }
+
+    @PostMapping("/addGames")
+    public void addGames(@RequestParam Long userId) throws ExecutionException, InterruptedException {
+        userService.addGames(userId);
+    }
+
+    @PostMapping("/reset/")
+    public void resetLearningMode(@RequestParam Long userId) {
+        userService.resetLearningMode(userId);
+    }
 
 }
 
