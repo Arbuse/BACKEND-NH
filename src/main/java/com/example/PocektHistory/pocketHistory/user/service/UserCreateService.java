@@ -32,7 +32,7 @@ public class UserCreateService {
         // Utwórz nowego użytkownika w kolekcji users
         DocumentReference newUserRef = dbFirestore.collection(USERS_COLLECTION).document(newUserId.toString());
         User user = new User(userRegister.getUsername(), newUserId, userRegister.getFirstName(), userRegister.getLastName(),
-                0, userRegister.getAvatar(), userRegister.getDesc(), 0, userRegister.getEmail());
+                0, userRegister.getAvatar(), userRegister.getDesc(), 0, userRegister.getEmail(),0L,0L,0L,0L,0L,0L);
         ApiFuture<WriteResult> userWriteResult = newUserRef.set(user);
 
         // Utwórz nowego użytkownika w kolekcji authorization
