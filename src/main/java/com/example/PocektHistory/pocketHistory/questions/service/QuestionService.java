@@ -19,7 +19,7 @@ public class QuestionService {
 
     private static final String COLLECTION_NAME = "questions";
 
-    private UserService userService;
+    private static final UserService userService = new UserService();
 
 
     public List<Question> getQuestions() throws ExecutionException, InterruptedException {
@@ -69,7 +69,6 @@ public class QuestionService {
     }
 
     private List<Question> randomizeQuestion(List<Question> questions, int count) {
-
         if (count >= questions.size()) {
             return questions;
         }
@@ -91,6 +90,9 @@ public class QuestionService {
 
         List<Question> learningQuestions = new ArrayList<>();
         Random random = new Random();
+        int maxQuestions = 30; // Maksymalna liczba pytań
+
+        int addedQuestions = 0; // Licznik dodanych pytań
 
         for (Question question : questions) {
             String typ = question.getTyp();
@@ -100,11 +102,17 @@ public class QuestionService {
             double randomValue = random.nextDouble();
             if (randomValue < inverseLearningFactor) {
                 learningQuestions.add(question);
+                addedQuestions++; // Zwiększ licznik dodanych pytań
+
+                if (addedQuestions >= maxQuestions) {
+                    break; // Przerwij pętlę, gdy osiągnięto maksymalną liczbę pytań
+                }
             }
         }
 
         return learningQuestions;
     }
+
 
     private Long getLearningFactor(User user, String typ) {
         switch (typ) {

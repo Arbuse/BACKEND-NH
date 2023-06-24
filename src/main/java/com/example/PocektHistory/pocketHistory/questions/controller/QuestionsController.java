@@ -21,8 +21,8 @@ public class QuestionsController {
         return questionService.getQuestions();
     }
 
-    @GetMapping("/getAllbyTyp")
-    public List<Question> getQuestionsByTyp(@RequestParam String typ) throws ExecutionException, InterruptedException{
+    @GetMapping("/getAllbyTyp/{typ}")
+    public List<Question> getQuestionsByTyp(@PathVariable String typ) throws ExecutionException, InterruptedException{
         return questionService.getQuestionsByTyp(typ);
     }
 

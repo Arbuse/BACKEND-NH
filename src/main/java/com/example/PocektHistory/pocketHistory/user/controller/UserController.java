@@ -46,8 +46,8 @@ public class UserController {
     }
 
     @GetMapping("/authorization")
-    public boolean authorization(@RequestParam String password, @RequestParam String email, @RequestParam Long userId) {
-        return userService.authorization(password, email, userId);
+    public Long authorization(@RequestParam String password, @RequestParam String email) {
+        return userService.getAuthorization(password, email);
     }
 
     @GetMapping("/ranking")
@@ -67,6 +67,7 @@ public class UserController {
 
     @PostMapping("/reset/")
     public void resetLearningMode(@RequestParam Long userId) {
+
         userService.resetLearningMode(userId);
     }
 

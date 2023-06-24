@@ -27,41 +27,62 @@ public class UserService {
 
     public User getUserById(Long userId) throws FirestoreException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        DocumentReference documentReference = dbFirestore.collection(COLLECTION_NAME).document(String.valueOf(userId));
-
-        ApiFuture<DocumentSnapshot> future = documentReference.get();
+        ApiFuture<QuerySnapshot> future = dbFirestore.collection(COLLECTION_NAME)
+                .whereEqualTo("userId", userId)
+                .get();
 
         try {
-            DocumentSnapshot document = future.get();
-            User user;
-            if (document.exists()) {
-                user = document.toObject(User.class);
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+            if (!documents.isEmpty()) {
+                DocumentSnapshot document = documents.get(0);
+                User user = document.toObject(User.class);
                 return user;
             } else {
                 return null;
             }
         } catch (Exception e) {
-            throw new FirestoreCustomException("Failed to get user by ID.",e);
+            throw new FirestoreCustomException("Failed to get user by ID.", e);
         }
     }
 
-    public Authorization getAuthorizationById(Long userId) throws FirestoreException {
-        Firestore dbFirestore = FirestoreClient.getFirestore();
-        DocumentReference documentReference = dbFirestore.collection(AUTHORIZATION_COLLECTION).document(String.valueOf(userId));
+//    public Authorization getAuthorizationById(Long userId) throws FirestoreException {
+//        Firestore dbFirestore = FirestoreClient.getFirestore();
+//        DocumentReference documentReference = dbFirestore.collection(AUTHORIZATION_COLLECTION).document(String.valueOf(userId));
+//
+//        ApiFuture<DocumentSnapshot> future = documentReference.get();
+//
+//        try {
+//            DocumentSnapshot document = future.get();
+//            Authorization authorization;
+//            if (document.exists()) {
+//                authorization = document.toObject(Authorization.class);
+//                return authorization;
+//            } else {
+//                return null;
+//            }
+//        } catch (Exception e) {
+//            throw new FirestoreCustomException("Failed to get authorization by ID.", e);
+//        }
+//    }
 
-        ApiFuture<DocumentSnapshot> future = documentReference.get();
+    public Long getAuthorization(String password, String email) throws FirestoreException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        CollectionReference collectionReference = dbFirestore.collection(AUTHORIZATION_COLLECTION);
+
+        Query query = collectionReference.whereEqualTo("password", password).whereEqualTo("email", email);
+        ApiFuture<QuerySnapshot> future = query.get();
 
         try {
-            DocumentSnapshot document = future.get();
-            Authorization authorization;
-            if (document.exists()) {
-                authorization = document.toObject(Authorization.class);
-                return authorization;
+            QuerySnapshot querySnapshot = future.get();
+            if (!querySnapshot.isEmpty()) {
+                DocumentSnapshot document = querySnapshot.getDocuments().get(0);
+                Authorization authorization = document.toObject(Authorization.class);
+                return authorization.getUserId();
             } else {
                 return null;
             }
         } catch (Exception e) {
-            throw new FirestoreCustomException("Failed to get authorization by ID.", e);
+            throw new FirestoreCustomException("Failed to get authorization by password and email.", e);
         }
     }
 
@@ -99,10 +120,10 @@ public class UserService {
         dbFirestore.collection(COLLECTION_NAME).document(String.valueOf(userEditApi.getUserId())).set(user);
     }
 
-    public boolean authorization(String password, String email, Long userId) {
-        Authorization authorization = getAuthorizationById(userId);
-        return authorization != null && password.equals(authorization.getPassword()) && email.equals(authorization.getEmail());
-    }
+//    public boolean authorization(String password, String email, Long userId) {
+//        Authorization authorization = getAuthorizationById(userId);
+//        return authorization != null && password.equals(authorization.getPassword()) && email.equals(authorization.getEmail());
+//    }
 
 
 
