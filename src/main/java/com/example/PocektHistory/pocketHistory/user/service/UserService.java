@@ -1,6 +1,8 @@
 package com.example.PocektHistory.pocketHistory.user.service;
 
 
+import com.example.PocektHistory.pocketHistory.questions.models.LearningModeApi;
+import com.example.PocektHistory.pocketHistory.questions.models.LearningModeEnum;
 import com.example.PocektHistory.pocketHistory.user.entity.Authorization;
 import com.example.PocektHistory.pocketHistory.user.entity.Product;
 import com.example.PocektHistory.pocketHistory.user.entity.User;
@@ -27,41 +29,42 @@ public class UserService {
 
     public User getUserById(Long userId) throws FirestoreException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        DocumentReference documentReference = dbFirestore.collection(COLLECTION_NAME).document(String.valueOf(userId));
-
-        ApiFuture<DocumentSnapshot> future = documentReference.get();
+        ApiFuture<QuerySnapshot> future = dbFirestore.collection(COLLECTION_NAME)
+                .whereEqualTo("userId", userId)
+                .get();
 
         try {
-            DocumentSnapshot document = future.get();
-            User user;
-            if (document.exists()) {
-                user = document.toObject(User.class);
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+            if (!documents.isEmpty()) {
+                DocumentSnapshot document = documents.get(0);
+                User user = document.toObject(User.class);
                 return user;
             } else {
                 return null;
             }
         } catch (Exception e) {
-            throw new FirestoreCustomException("Failed to get user by ID.",e);
+            throw new FirestoreCustomException("Failed to get user by ID.", e);
         }
     }
 
-    public Authorization getAuthorizationById(Long userId) throws FirestoreException {
+    public Long getAuthorization(String password, String email) throws FirestoreException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        DocumentReference documentReference = dbFirestore.collection(AUTHORIZATION_COLLECTION).document(String.valueOf(userId));
+        CollectionReference collectionReference = dbFirestore.collection(AUTHORIZATION_COLLECTION);
 
-        ApiFuture<DocumentSnapshot> future = documentReference.get();
+        Query query = collectionReference.whereEqualTo("password", password).whereEqualTo("email", email);
+        ApiFuture<QuerySnapshot> future = query.get();
 
         try {
-            DocumentSnapshot document = future.get();
-            Authorization authorization;
-            if (document.exists()) {
-                authorization = document.toObject(Authorization.class);
-                return authorization;
+            QuerySnapshot querySnapshot = future.get();
+            if (!querySnapshot.isEmpty()) {
+                DocumentSnapshot document = querySnapshot.getDocuments().get(0);
+                Authorization authorization = document.toObject(Authorization.class);
+                return authorization.getUserId();
             } else {
                 return null;
             }
         } catch (Exception e) {
-            throw new FirestoreCustomException("Failed to get authorization by ID.", e);
+            throw new FirestoreCustomException("Failed to get authorization by password and email.", e);
         }
     }
 
@@ -92,17 +95,22 @@ public class UserService {
         return users;
     }
 
-    public void updateUser(UserEditApi userEditApi) throws ExecutionException, InterruptedException {
-        User user = getUserById(userEditApi.getUserId());
-        update(userEditApi, user);
+    public void updateUser(UserEditApi userEditApi, Long userId) throws ExecutionException, InterruptedException {
+        User user = getUserById(userId);
+        if (userEditApi.getUsername() != null) {
+            user.setUsername(userEditApi.getUsername());
+        }
+        if (userEditApi.getDesc() != null) {
+            user.setDesc(userEditApi.getDesc());
+        }
+        if (userEditApi.getAvatar() != null) {
+            user.setAvatar(userEditApi.getAvatar());
+        }
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        dbFirestore.collection(COLLECTION_NAME).document(String.valueOf(userEditApi.getUserId())).set(user);
+        dbFirestore.collection(COLLECTION_NAME).document(String.valueOf(userId)).set(user);
     }
 
-    public boolean authorization(String password, String email, Long userId) {
-        Authorization authorization = getAuthorizationById(userId);
-        return authorization != null && password.equals(authorization.getPassword()) && email.equals(authorization.getEmail());
-    }
+
 
 
 
@@ -163,5 +171,41 @@ public class UserService {
     }
 
 
+    public void addPointsInLearningMode(Long userId, LearningModeApi learningModeApi) {
+        User user = getUserById(userId);
+        int poprawneOdpowiedzi = 0;
+        int niepoprawneOdpowiedzi = 0;
+
+        poprawneOdpowiedzi = learningModeApi.getPoprawneOdpowiedzi_HP();
+        niepoprawneOdpowiedzi = learningModeApi.getNiepoprawneOdpowiedzi_HP();
+        user.setHP_learningFactor(calculateLearningFactor(user.getHP_learningFactor(), poprawneOdpowiedzi, niepoprawneOdpowiedzi));
+
+        poprawneOdpowiedzi = learningModeApi.getPoprawneOdpowiedzi_HS();
+        niepoprawneOdpowiedzi = learningModeApi.getNiepoprawneOdpowiedzi_HS();
+        user.setHS_learningFactor(calculateLearningFactor(user.getHS_learningFactor(), poprawneOdpowiedzi, niepoprawneOdpowiedzi));
+
+        poprawneOdpowiedzi = learningModeApi.getPoprawneOdpowiedzi_NC();
+        niepoprawneOdpowiedzi = learningModeApi.getNiepoprawneOdpowiedzi_NC();
+        user.setNC_learningFactor(calculateLearningFactor(user.getNC_learningFactor(), poprawneOdpowiedzi, niepoprawneOdpowiedzi));
+
+        poprawneOdpowiedzi = learningModeApi.getPoprawneOdpowiedzi_PA();
+        niepoprawneOdpowiedzi = learningModeApi.getNiepoprawneOdpowiedzi_PA();
+        user.setPA_learningFactor(calculateLearningFactor(user.getPA_learningFactor(), poprawneOdpowiedzi, niepoprawneOdpowiedzi));
+
+        poprawneOdpowiedzi = learningModeApi.getPoprawneOdpowiedzi_SC();
+        niepoprawneOdpowiedzi = learningModeApi.getNiepoprawneOdpowiedzi_SC();
+        user.setSC_learningFactor(calculateLearningFactor(user.getSC_learningFactor(), poprawneOdpowiedzi, niepoprawneOdpowiedzi));
+
+        poprawneOdpowiedzi = learningModeApi.getPoprawneOdpowiedzi_SE();
+        niepoprawneOdpowiedzi = learningModeApi.getNiepoprawneOdpowiedzi_SE();
+        user.setSE_learningFactor(calculateLearningFactor(user.getSE_learningFactor(), poprawneOdpowiedzi, niepoprawneOdpowiedzi));
+
+        updateUserData(user);
+    }
+
+    private long calculateLearningFactor(long currentLearningFactor, int poprawneOdpowiedzi, int niepoprawneOdpowiedzi) {
+        long newLearningFactor = currentLearningFactor + poprawneOdpowiedzi - niepoprawneOdpowiedzi;
+        return Math.max(newLearningFactor, 0);
+    }
 
 }

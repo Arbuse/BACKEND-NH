@@ -46,12 +46,12 @@ public class FirebaseInitialization {
 
             // Sprawdź, czy kolekcja "questions" już istnieje
             if (!collectionExists(db)) {
-                loadQuestionsFromFile(db, "src/main/java/assets/QuestionsPA.txt");
-                loadQuestionsFromFile(db, "src/main/java/assets/QuestionsHP.txt");
-                loadQuestionsFromFile(db, "src/main/java/assets/QuestionsSE.txt");
-                loadQuestionsFromFile(db, "src/main/java/assets/QuestionsSC.txt");
-                loadQuestionsFromFile(db, "src/main/java/assets/QuestionsNC.txt");
-                loadQuestionsFromFile(db, "src/main/java/assets/QuestionsHS.txt");
+//                loadQuestionsFromFile(db, "src/main/java/assets/QuestionsPA.txt");
+//                loadQuestionsFromFile(db, "src/main/java/assets/QuestionsHP.txt");
+//                loadQuestionsFromFile(db, "src/main/java/assets/QuestionsSE.txt");
+//                loadQuestionsFromFile(db, "src/main/java/assets/QuestionsSC.txt");
+//                loadQuestionsFromFile(db, "src/main/java/assets/QuestionsNC.txt");
+//                loadQuestionsFromFile(db, "src/main/java/assets/QuestionsHS.txt");
             }
 
         } catch (Exception e) {
@@ -64,21 +64,6 @@ public class FirebaseInitialization {
         ApiFuture<DocumentSnapshot> future = db.collection(QUESTIONS_COLLECTION_NAME).document().get();
         DocumentSnapshot document = future.get();
         return document.exists();
-
-//        Firestore dbFirestore = FirestoreClient.getFirestore();
-//        DocumentReference documentReference = dbFirestore.collection(COLLECTION_NAME).document(String.valueOf(userId));
-//
-//        ApiFuture<DocumentSnapshot> future = documentReference.get();
-//
-//        try {
-//            DocumentSnapshot document = future.get();
-//            User user;
-//            if (document.exists()) {
-//                user = document.toObject(User.class);
-//                return user;
-//            } else {
-//                return null;
-//            }
     }
 
     private void loadQuestionsFromFile(Firestore db, String filePath) {

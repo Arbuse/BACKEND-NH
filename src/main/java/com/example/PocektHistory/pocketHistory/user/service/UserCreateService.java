@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.nio.ByteBuffer;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 @Service
@@ -20,24 +22,20 @@ public class UserCreateService {
 
     private static final String USER_ID_FIELD = "userId";
 
-
-
     public void createUser(UserRegister userRegister) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
 
-        // Generuj nowy userId jako UUID
-        UUID uuid = UUID.randomUUID();
-        Long newUserId = ByteBuffer.wrap(uuid.toString().getBytes()).getLong();
+        // Wygeneruj nowy userId jako losową wartość typu Long z 12 cyfr
+        long newUserId = ThreadLocalRandom.current().nextLong(1_000_000_000_000L, 10_000_000_000_000L);
 
         // Utwórz nowego użytkownika w kolekcji users
-        DocumentReference newUserRef = dbFirestore.collection(USERS_COLLECTION).document(newUserId.toString());
-        User user = new User(userRegister.getUsername(), newUserId, userRegister.getFirstName(), userRegister.getLastName(),
-                0, userRegister.getAvatar(), userRegister.getDesc(), 0, userRegister.getEmail(),0L,0L,0L,0L,0L,0L);
+        DocumentReference newUserRef = dbFirestore.collection(USERS_COLLECTION).document(String.valueOf(newUserId));
+        User user = new User(userRegister.getUsername(), newUserId, "", "", 0, "", "", 0, userRegister.getEmail(), 0L, 0L, 0L, 0L, 0L, 0L);
         ApiFuture<WriteResult> userWriteResult = newUserRef.set(user);
 
         // Utwórz nowego użytkownika w kolekcji authorization
-        DocumentReference newAuthRef = dbFirestore.collection(AUTHORIZATION_COLLECTION).document(newUserId.toString());
-        Authorization authorization = new Authorization(userRegister.getPassword(), userRegister.getEmail(),newUserId);
+        DocumentReference newAuthRef = dbFirestore.collection(AUTHORIZATION_COLLECTION).document(String.valueOf(newUserId));
+        Authorization authorization = new Authorization(userRegister.getPassword(), userRegister.getEmail(), newUserId);
         ApiFuture<WriteResult> authWriteResult = newAuthRef.set(authorization);
 
         // Poczekaj na zakończenie zapisu do obu kolekcji
@@ -46,5 +44,6 @@ public class UserCreateService {
 
         System.out.println("Użytkownik został pomyślnie utworzony z ID: " + newUserId);
     }
+
 }
 

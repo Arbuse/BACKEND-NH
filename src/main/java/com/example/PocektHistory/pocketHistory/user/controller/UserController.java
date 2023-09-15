@@ -1,6 +1,7 @@
 package com.example.PocektHistory.pocketHistory.user.controller;
 
 
+import com.example.PocektHistory.pocketHistory.questions.models.LearningModeApi;
 import com.example.PocektHistory.pocketHistory.user.entity.Authorization;
 import com.example.PocektHistory.pocketHistory.user.entity.User;
 import com.example.PocektHistory.pocketHistory.user.models.UserEditApi;
@@ -40,14 +41,14 @@ public class UserController {
         userCreateService.createUser(userRegister);
     }
 
-    @PostMapping("/updateUser")
-    public void updateUser(@RequestBody UserEditApi userEditApi)throws  ExecutionException, InterruptedException{
-        userService.updateUser(userEditApi);
+    @PostMapping("/updateUser/{userId}")
+    public void updateUser(@PathVariable Long userId, @RequestBody UserEditApi userEditApi)throws  ExecutionException, InterruptedException{
+        userService.updateUser(userEditApi, userId);
     }
 
     @GetMapping("/authorization")
-    public boolean authorization(@RequestParam String password, @RequestParam String email, @RequestParam Long userId) {
-        return userService.authorization(password, email, userId);
+    public Long authorization(@RequestParam String password, @RequestParam String email) {
+        return userService.getAuthorization(password, email);
     }
 
     @GetMapping("/ranking")
@@ -55,13 +56,13 @@ public class UserController {
         return userService.ranking();
     }
 
-    @PostMapping("/addPoints")
-    public void addPoints(@RequestParam Long userId, @RequestParam Integer points) throws ExecutionException, InterruptedException {
+    @PostMapping("/addPoints/{userId}/{points}")
+    public void addPoints(@PathVariable Long userId, @PathVariable Integer points) throws ExecutionException, InterruptedException {
         userService.addPoints(userId, points);
     }
 
-    @PostMapping("/addGames")
-    public void addGames(@RequestParam Long userId) throws ExecutionException, InterruptedException {
+    @PostMapping("/addGames/{userId}")
+    public void addGames(@PathVariable Long userId) throws ExecutionException, InterruptedException {
         userService.addGames(userId);
     }
 
@@ -70,5 +71,9 @@ public class UserController {
         userService.resetLearningMode(userId);
     }
 
+    @PostMapping("/addPointsToLearningMode/{userId}")
+    public void addPointsInLearningMode(@PathVariable Long userId, @RequestBody LearningModeApi learningModeApi) throws ExecutionException, InterruptedException {
+         userService.addPointsInLearningMode(userId, learningModeApi);
+    }
 }
 
