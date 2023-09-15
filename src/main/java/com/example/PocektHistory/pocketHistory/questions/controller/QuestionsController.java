@@ -36,10 +36,13 @@ public class QuestionsController {
         return questionService.getQuestionsByTypRandomize(typ, count);
     }
 
-    @GetMapping("/getQuestionFromLearnigMode")
+        @GetMapping("/getQuestionFromLearnigMode")
     public List<Question> getQuestionsInLearningMode(@RequestParam Long userId) throws ExecutionException, InterruptedException {
         return questionService.getQuestionsInLearningMode(userId);
     }
 
-
+    @GetMapping("/testLM")
+    public String testLM(@RequestParam Long userId) throws ExecutionException, InterruptedException {
+        return questionService.testLM(questionService.getQuestionsInLearningMode(userId),userId);
+    }
 }

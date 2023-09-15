@@ -64,21 +64,6 @@ public class FirebaseInitialization {
         ApiFuture<DocumentSnapshot> future = db.collection(QUESTIONS_COLLECTION_NAME).document().get();
         DocumentSnapshot document = future.get();
         return document.exists();
-//      poprawic
-//        Firestore dbFirestore = FirestoreClient.getFirestore();
-//        DocumentReference documentReference = dbFirestore.collection(COLLECTION_NAME).document(String.valueOf(userId));
-//
-//        ApiFuture<DocumentSnapshot> future = documentReference.get();
-//
-//        try {
-//            DocumentSnapshot document = future.get();
-//            User user;
-//            if (document.exists()) {
-//                user = document.toObject(User.class);
-//                return user;
-//            } else {
-//                return null;
-//            }
     }
 
     private void loadQuestionsFromFile(Firestore db, String filePath) {

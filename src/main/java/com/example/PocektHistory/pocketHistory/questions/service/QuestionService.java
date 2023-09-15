@@ -8,10 +8,7 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -85,32 +82,97 @@ public class QuestionService {
         return learningMode(questions,userId);
     }
 
+//    private List<Question> learningMode(List<Question> questions, Long userId) {
+//        User user = userService.getUserById(userId);
+//
+//        List<Question> learningQuestions = new ArrayList<>();
+//        Random random = new Random();
+//        int minQuestions = 10; // Minimalna liczba pytań
+//        int maxQuestions = 15; // Maksymalna liczba pytań
+//
+//        int addedQuestions = 0; // Licznik dodanych pytań
+//
+//        // Sprawdź, czy liczba dostępnych pytań jest mniejsza niż minimalna liczba
+//        if (questions.size() < minQuestions) {
+//            return questions; // Jeśli liczba dostępnych pytań jest mniejsza niż minimalna liczba, zwróć wszystkie pytania
+//        }
+//
+//        while (addedQuestions < maxQuestions) {
+//            Question randomQuestion = questions.get(random.nextInt(questions.size()));
+//            String typ = randomQuestion.getTyp();
+//            Long learningFactor = getLearningFactor(user, typ);
+//            double inverseLearningFactor = 1.0 / learningFactor;
+//
+//            double randomValue = random.nextDouble();
+//            if (randomValue < inverseLearningFactor) {
+//                learningQuestions.add(randomQuestion);
+//                addedQuestions++; // Zwiększ licznik dodanych pytań
+//            }
+//        }
+//
+//        return learningQuestions;
+//    }
+
     private List<Question> learningMode(List<Question> questions, Long userId) {
         User user = userService.getUserById(userId);
 
         List<Question> learningQuestions = new ArrayList<>();
         Random random = new Random();
-        int maxQuestions = 30; // Maksymalna liczba pytań
+        int numberOfQuestions = 10; // Pytania do wylosowania
+        int totalQuestions = questions.size();
 
-        int addedQuestions = 0; // Licznik dodanych pytań
+        List<Integer> questionIndices = new ArrayList<>();
+        for (int i = 0; i < totalQuestions; i++) {
+            questionIndices.add(i);
+        }
 
-        for (Question question : questions) {
-            String typ = question.getTyp();
+        Collections.shuffle(questionIndices); // Mieszaj indeksy pytań
+
+        int currentIndex = 0;
+
+        while (learningQuestions.size() < numberOfQuestions) {
+            if (currentIndex >= totalQuestions) {
+                currentIndex = 0; // Jeśli osiągnięto koniec listy, zacznij od początku
+                Collections.shuffle(questionIndices); // Ponownie zamieszaj indeksy pytań
+            }
+
+            int randomIndex = questionIndices.get(currentIndex);
+            Question randomQuestion = questions.get(randomIndex);
+            String typ = randomQuestion.getTyp();
             Long learningFactor = getLearningFactor(user, typ);
             double inverseLearningFactor = 1.0 / learningFactor;
 
             double randomValue = random.nextDouble();
             if (randomValue < inverseLearningFactor) {
-                learningQuestions.add(question);
-                addedQuestions++; // Zwiększ licznik dodanych pytań
-
-                if (addedQuestions >= maxQuestions) {
-                    break; // Przerwij pętlę, gdy osiągnięto maksymalną liczbę pytań
-                }
+                learningQuestions.add(randomQuestion);
             }
+
+            currentIndex++;
         }
 
         return learningQuestions;
+    }
+
+    public String testLM(List<Question> learningQuestions, Long userId) {
+        User user = userService.getUserById(userId);
+        Map<String, Integer> questionCountByFactor = new HashMap<>();
+
+        for (Question question : learningQuestions) {
+            String type = question.getTyp();
+            Long learningFactor = getLearningFactor(user, type);
+            String factorKey = "wspolczynnik-" + type;
+
+            questionCountByFactor.put(factorKey, questionCountByFactor.getOrDefault(factorKey, 0) + 1);
+        }
+
+        StringBuilder result = new StringBuilder();
+        for (Map.Entry<String, Integer> entry : questionCountByFactor.entrySet()) {
+            String factor = entry.getKey();
+            Integer count = entry.getValue();
+            result.append(factor).append(" = ").append(count).append("\n");
+        }
+
+        return result.toString();
     }
 
 
